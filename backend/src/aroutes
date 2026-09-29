@@ -1,0 +1,27 @@
+└── /
+    ├── auth/
+    │   ├── signup (POST)
+    │   ├── log
+    │   │   ├── in (POST)
+    │   │   └── out (POST)
+    │   └── refresh (POST)
+    ├── relationships/
+    │   ├── add/
+    │   │   └── :username (POST)
+    │   ├── list/
+    │   │   └── :type (GET, HEAD)
+    │   ├── manage/
+    │   │   ├── accept (PUT)
+    │   │   └── remove (DELETE)
+    │   └── block/
+    │       └── :userId (POST)
+    ├── game/
+    │   ├── invitation/
+    │   │   ├── list (GET, HEAD)
+    │   │   ├── update/
+    │   │   │   └── :state
+    │   │   │       └── /
+    │   │   │           └── :invitationId (PUT)
+    │   │   └── :userId (POST)
+    │   └── tournament/create (POST)
+    └── ws/init (GET, HEAD)

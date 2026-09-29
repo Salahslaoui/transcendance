@@ -1,0 +1,2 @@
+Amine:
+	If websocket connections close, remove user from matchmaking queue

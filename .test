@@ -1,0 +1,46 @@
+        location /uploads/ {
+            proxy_pass http://backend:8000;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+
+		    volumes:
+      - db:/app/data
+      - avatars:/app/dist/uploads/avatars
+
+	  volumes:
+  db:
+  avatars:
+  certs:
+
+
+
+  FROM node:lts AS base
+WORKDIR /app
+
+FROM base AS deps
+COPY package.json package-lock.json ./
+RUN npm ci
+
+FROM base AS builder
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN npm run build
+RUN mkdir -p ./dist/uploads/avatars
+
+FROM node:lts AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+ENV PORT=8000
+
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+
+RUN mkdir -p /app/data
+RUN mkdir -p /app/dist/uploads/avatars
+EXPOSE 8000
+WORKDIR /app/dist
+CMD ["node", "index.js"]

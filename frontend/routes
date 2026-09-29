@@ -1,0 +1,26 @@
+└── /
+    ├── auth/
+    │   ├── signup (POST)
+    │   ├── log
+    │   │   ├── in (POST)
+    │   │   └── out (POST)
+    │   └── refresh (POST)
+    ├── user/modify/
+    │   ├── username (POST)
+    │   └── password (POST)
+    ├── relationships/friends
+    │   ├── re
+    │   │   ├── quest (POST)
+    │   │   └── ject/
+    │   │       └── :requestId (POST)
+    │   ├── accept/
+    │   │   └── :requestId (POST)
+    │   ├── block/
+    │   │   └── :requestId (POST)
+    │   ├── /
+    │   │   ├── accepted (GET, HEAD)
+    │   │   └── remove/
+    │   │       └── :friendId (DELETE)
+    │   └── pending (GET, HEAD)
+    ├── game/tournament/create (POST)
+    └── ws/init (GET, HEAD)

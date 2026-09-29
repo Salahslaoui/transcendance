@@ -1,0 +1,87 @@
+services:
+  frontend:
+    image: frontend:v1
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NODE_ENV: production
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://frontend:3000"]
+      interval: 20s
+      timeout: 2s
+      retries: 5
+      start_period: 5s
+
+    networks:
+      - ft_trans
+
+  redis:
+    image: redis:8.2.3-alpine
+    container_name: redis
+    command: ["redis-server", "--appendonly", "yes", "--bind", "0.0.0.0"]
+    networks:
+      - ft_trans
+
+  nginx:
+    image: nginx:v1
+    container_name: nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+      args:
+        DOMAIN_NAME: ${DOMAIN_NAME}
+    ports:
+      - "8090:443"
+    depends_on:
+      frontend:
+        condition: service_healthy
+      backend:
+        condition: service_healthy
+
+    networks:
+      - ft_trans
+
+  backend:
+    image: backend:v1
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    depends_on:
+      - redis
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+      - redirectURL=${redirectURL}
+      - clientId=${clientId}
+      - clientSecret=${clientSecret}
+      - frontendCallback=${frontendCallback}
+    volumes:
+      - db:/app/data
+      - avatars:/app/dist/uploads/avatars
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://backend:8000/health"]
+      interval: 5s
+      timeout: 2s
+      retries: 5
+    networks:
+      - ft_trans
+
+volumes:
+  db:
+  avatars:
+
+networks:
+  ft_trans:
+    driver: bridge
+
+
+# --appendonly yes
+# Enables Append Only File (AOF) persistence.
+# How it works:
+#   Every write operation (SET, DEL, etc.) is appended to a log file (appendonly.aof).
+#   On Redis restart, it replays the log to reconstruct the database.
+# Benefits:
+#   Provides durable persistence — your data survives container restarts.
+#   Safer than just relying on snapshots (RDB files) if you need minimal data loss

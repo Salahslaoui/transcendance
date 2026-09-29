@@ -1,0 +1,61 @@
+.with-connector:after {
+  content: '';
+  position: absolute;
+  left: calc(100% + 0.5rem);
+  width: 1.25rem;
+  border: 2px solid #60a5fa;
+  border-left: none;
+}
+
+.with-connector:nth-child(odd):after {
+  top: 50%;
+  border-bottom: none;
+}
+
+.with-connector:nth-child(even):after {
+  bottom: 50%;
+  border-top: none;
+}
+
+.round:nth-child(1) .with-connector:after {
+  height: 25px;
+}
+.round:nth-child(2) .with-connector:after {
+  height: 60px;
+}
+.round:nth-child(3) .with-connector:after {
+  height: 100px;
+}
+
+.round.round-winner .with-connector:after {
+  width: 0;
+}
+
+
+.round + .round .with-connector:before {
+  content: '';
+  position: absolute;
+  left: -1.75rem;
+  top: 50%;
+  width: 1.25rem;
+  border-top: 2px solid #60a5fa;
+}
+
+.with-connector.with-bye {
+  margin-top: 33px;
+  margin-bottom: 33px;
+}
+.round .with-connector.with-bye:after {
+  height: 0;
+}
+.with-connector.with-bye + .with-connector {
+  display: none;
+}
+
+.round .with-connector.from-bye:before {
+  width: 0;
+}
+
+.round.round-winner .with-connector:after {
+  width: 0;
+}

@@ -1,0 +1,26 @@
+Server is running on http://127.0.0.1:8000
+└── /
+    ├── auth/
+    │   ├── signup (POST)
+    │   ├── log
+    │   │   ├── in (POST)
+    │   │   └── out (POST)
+    │   └── refresh (POST)
+    ├── user/modify/
+    │   ├── username (POST)
+    │   └── password (POST)
+    ├── relationships/friends (GET, HEAD)
+    │   ├── re
+    │   │   ├── quest (POST)
+    │   │   └── ject/
+    │   │       └── :requestId (POST)
+    │   ├── accept/
+    │   │   └── :requestId (POST)
+    │   ├── block/
+    │   │   └── :requestId (POST)
+    │   ├── / (GET, HEAD)
+    │   │   └── remove/
+    │   │       └── :friendId (DELETE)
+    │   └── pending (GET, HEAD)
+    ├── game/tournament/create (POST)
+    └── ws/init (GET, HEAD)

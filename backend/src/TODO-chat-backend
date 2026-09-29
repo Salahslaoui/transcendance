@@ -1,0 +1,6 @@
+Create DB schema and model for messages
+Implement chat logic in WebSocket server
+(Optional) Add REST endpoints for chat
+Register new routes in backend
+Update frontend to use new chat backend
+
